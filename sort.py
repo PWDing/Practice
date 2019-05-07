@@ -98,31 +98,34 @@ def partition(start, end, array=None):
     return pivot
 
 
-def heap_sort(array=None):
-    check_list(array)
-    heap_scale = len(array)
-    for i in range(heap_scale, -1, -1):
-        heapify(heap_scale, i, array)
+def heapify(list_, root, size):
+    check_list(list_)
 
-    for j in range(heap_scale-1, 0, -1):
-        array[j], array[0] = array[0], array[j]
-        heapify(j, 0, array)
+    largest = root
+    left_child = root * 2 + 1
+    right_child = root * 2 + 2
+
+    if left_child < size and list_[left_child] > list_[largest]:
+        largest = left_child
+    if right_child < size and list_[right_child] > list_[largest]:
+        largest = right_child
+    if root != largest:
+        list_[root], list_[largest] = list_[largest], list_[root]
+        heapify(list_, largest, size)
 
 
-def heapify(heap_size, root, array=None):
-    check_list(array)
-    maximum = root
-    left = 2 * root + 1
-    right = 2 * root + 1
+def heap_sort(list_, root, size):
+    check_list(list_)
 
-    if left < heap_size and array[left] > array[maximum]:
-        maximum = left
-    if right < heap_size and array[right] > array[maximum]:
-        maximum = right
+    # build max-heap
+    sub_node = size // 2 - 1
+    while sub_node >= 0:
+        heapify(list_, sub_node, size)
+        sub_node -= 1
 
-    if maximum != root:
-        array[root], array[maximum] = array[maximum], array[root]
-        heapify(heap_size, maximum, array)
+    for i in range(size-1, 0, -1):
+        list_[root], list_[i] = list_[i], list_[root]
+        heapify(list_, root, i)
 
 
 def find_kth_smallest_num(array, k):
