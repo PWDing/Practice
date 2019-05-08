@@ -12,6 +12,16 @@ def lcs(string1, string2):
     return longest
 
 
+# recursive implementation
+def lcs_recursive(string1, string2):
+    if len(string1) == 0 or len(string2) == 0:
+        return 0
+    if string1[-1:] == string2[-1:]:
+        return lcs(string1[:-1], string2[:-1]) + 1
+    else:
+        return max(lcs(string1[:-1], string2), lcs(string1, string2[:-1]))
+
+
 # longest common sub sequence
 def lcq(string1, string2):
     n, m = len(string2), len(string1)
@@ -32,4 +42,4 @@ str5 = 'abcd'
 str6 = 'eacb'
 print(lcs(str1, str2))
 print(lcq(str1, str2))
-print(lcq(str5, str6))
+print(lcs_recursive(str1, str2))
