@@ -37,18 +37,14 @@ def infix_to_postfix(infix):
 def calculate_postfix(postfix):
     operators = '+-*/'
     operands = []
-    start_index = 0
-    for i in range(len(postfix)):
-        if postfix[i] == ' ':
-            char = postfix[start_index:i]
-            if char in operators:
-                right_operand = operands.pop()
-                left_operand = operands.pop()
-                new_top_operand = calculate(int(left_operand), int(right_operand), char)
-                operands.append(new_top_operand)
-            else:
-                operands.append(char)
-            start_index = i + 1
+    for char in postfix.split(' '):
+        if char in operators:
+            right_operand = operands.pop()
+            left_operand = operands.pop()
+            new_top_operand = calculate(int(left_operand), int(right_operand), char)
+            operands.append(new_top_operand)
+        else:
+            operands.append(char)
     return operands[0]
 
 
@@ -75,5 +71,5 @@ f = '7 8 + 3 2 + /'
 # print(infix_to_postfix(b))
 # print(infix_to_postfix(c))
 # print(infix_to_postfix(d))
-print(calculate_postfix(infix_to_postfix(e)))
-print(calculate_postfix(infix_to_postfix(f)))
+print(calculate_postfix(e))
+print(calculate_postfix(f))
