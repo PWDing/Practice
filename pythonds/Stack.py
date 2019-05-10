@@ -5,7 +5,7 @@ class Stack:
         else:
             self.items = alist
 
-    def isEmpty(self):
+    def is_empty(self):
         return self.items == []
 
     def push(self, item):
@@ -27,10 +27,10 @@ print(new_stack.peak())
 print(new_stack.items)
 
 
-def revstring(mystr):
+def reverse_string(string):
     result = Stack()
-    for i in range(len(mystr) - 1, -1, -1):
-        result.push(mystr[i])
+    for i in range(len(string) - 1, -1, -1):
+        result.push(string[i])
     return result
 
 
@@ -40,17 +40,32 @@ def is_balanced_parentheses(parentheses):
         if parenthesis in '([{':
             result.push(parenthesis)
         else:
-            if result.isEmpty():
+            if result.is_empty():
                 return False
             elif '([{'.index(result.pop()) != ')]}'.index(parenthesis):
                 return False
-    if result.isEmpty():
+    if result.is_empty():
         return True
     else:
         return False
+
+
+def decimal_to_base(decimal, base):
+    digits = '0123456789ABCDEF'
+    remainders = Stack()
+    while decimal:
+        remainders.push(decimal % base)
+        decimal //= base
+    base_string = ''
+    while not remainders.is_empty():
+        base_string += digits[remainders.pop()]
+    return base_string
 
 
 print(is_balanced_parentheses('((()))'))
 print(is_balanced_parentheses('(()'))
 print(is_balanced_parentheses('{{([][])}()}'))
 print(is_balanced_parentheses('[{()]'))
+print(decimal_to_base(25, 8))
+print(decimal_to_base(256, 16))
+print(decimal_to_base(26, 26))
