@@ -12,19 +12,15 @@ class Stack:
         return self.items.append(item)
 
     def pop(self):
-        return self.items.pop()
+        if not self.is_empty():
+            return self.items.pop()
 
     def peak(self):
-        return self.items[-1]
+        if not self.is_empty():
+            return self.items[-1]
 
     def size(self):
         return len(self.items)
-
-
-new_stack = Stack()
-new_stack.push(5)
-print(new_stack.peak())
-print(new_stack.items)
 
 
 def reverse_string(string):
@@ -46,8 +42,7 @@ def is_balanced_parentheses(parentheses):
                 return False
     if result.is_empty():
         return True
-    else:
-        return False
+    return False
 
 
 def decimal_to_base(decimal, base):
@@ -62,10 +57,79 @@ def decimal_to_base(decimal, base):
     return base_string
 
 
-print(is_balanced_parentheses('((()))'))
-print(is_balanced_parentheses('(()'))
-print(is_balanced_parentheses('{{([][])}()}'))
-print(is_balanced_parentheses('[{()]'))
-print(decimal_to_base(25, 8))
-print(decimal_to_base(256, 16))
-print(decimal_to_base(26, 26))
+def infix_to_postfix(infix):
+    operators = {
+        '(': 0,
+        ')': 0,
+        '*': 1,
+        '/': 1,
+        '+': 2,
+        '-': 2,
+    }
+    postfix = []
+    opstack = Stack()
+    infix_list = infix.split(' ')
+    for item in infix_list:
+        if item not in operators.keys():
+            postfix.append(item)
+        else:
+            if item == ')':
+                top_operator = opstack.pop()
+                while top_operator and top_operator != '(':
+                    postfix.append(top_operator)
+                    top_operator = opstack.pop()
+            else:
+                if not opstack.is_empty() and \
+                        opstack.peak() != '(' and \
+                        operators[item] >= operators[opstack.peak()]:
+                    postfix.append(opstack.pop())
+                opstack.push(item)
+    while not opstack.is_empty():
+        postfix.append(opstack.pop())
+    postfix_expression = ' '.join(postfix)
+    return postfix_expression
+
+
+def calculate_postfix(postfix):
+    operators = '*/+-'
+    operands = Stack()
+    start = 0
+    for i in range(len(postfix)):
+        if postfix[i] in operators:
+            right_operand = int(operands.pop())
+            left_operand = int(operands.pop())
+            operands.push(calculate(left_operand, right_operand, postfix[i]))
+            start = i + 1
+        elif postfix[i] == ' ' and postfix[start:i] not in operators:
+            operands.push(postfix[start:i])
+            start = i + 1
+    return operands.pop()
+
+
+def calculate(operand1, operand2, operator):
+    result = None
+    if operator == '+':
+        result = operand1 + operand2
+    elif operator == '-':
+        result = operand1 - operand2
+    elif operator == '*':
+        result = operand1 * operand2
+    elif operator == '/' and operand2 != 0:
+        result = operand1 / operand2
+    return result
+
+
+if __name__ == '__main__':
+    print(is_balanced_parentheses('((()))'))
+    print(is_balanced_parentheses('(()'))
+    print(is_balanced_parentheses('{{([][])}()}'))
+    print(is_balanced_parentheses('[{()]'))
+    print(decimal_to_base(25, 8))
+    print(decimal_to_base(256, 16))
+    print(decimal_to_base(26, 26))
+    a = 'A * ( ( B + C ) / D )'
+    b = '3 * ( ( 4 + 6 ) / 5 )'
+    c = '25 + ( 12 + 15 ) / ( 3 * 3 )'
+    print(infix_to_postfix(a))
+    print(calculate_postfix(infix_to_postfix(b)))
+    print(calculate_postfix(infix_to_postfix(c)))
