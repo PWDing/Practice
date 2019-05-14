@@ -13,12 +13,12 @@ class Queue:
         return self.items == []
 
     def enqueue(self, item):
-        self.items.insert(0, item)
+        self.items.append(item)
         return self.items
 
     def dequeue(self):
         if not self.is_empty():
-            return self.items.pop()
+            return self.items.pop(0)
 
     def size(self):
         return len(self.items)
@@ -51,9 +51,9 @@ def radix_sort(alist, base):
         for i in range(size):
             pending = main_bin.dequeue()
             quotient = pending // digit
-            digits[quotient % base].insert(0, pending)
-        for j in range(base-1, -1, -1):
-            for k in range(len(digits[j])-1, -1, -1):
+            digits[quotient % base].append(pending)
+        for j in range(base):
+            for k in range(len(digits[j])):
                 main_bin.enqueue(digits[j][k])
         digit *= base
         max_digits //= base
