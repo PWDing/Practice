@@ -119,6 +119,36 @@ def calculate(operand1, operand2, operator):
     return result
 
 
+def check_html(docs):
+    tags = {
+        '<html>': '</html>',
+        '<head>': '</head>',
+        '<body>': '</body>',
+        '<title>': '</title>',
+        '<h1>': '</h1>',
+    }
+    pure_docs = handle_docs(docs)
+    tagstack = Stack()
+    for content in pure_docs:
+        if content in tags.keys():
+            tagstack.push(tags[content])
+        if not tagstack.is_empty() and content == tagstack.peak():
+            tagstack.pop()
+    if tagstack.is_empty():
+        return True
+    return False
+
+
+def handle_docs(docs):
+    lines = docs.split('\n')
+    pure_docs = []
+    for line in lines:
+        line = line.strip()
+        if line != '':
+            pure_docs.append(line)
+    return pure_docs
+
+
 if __name__ == '__main__':
     # print(is_balanced_parentheses('((()))'))
     # print(is_balanced_parentheses('(()'))
@@ -130,18 +160,33 @@ if __name__ == '__main__':
     # a = 'A * ( ( B + C ) / D )'
     # b = '3 * ( ( 4 + 6 ) / 5 )'
     # c = '25 + ( 12 + 15 ) / ( 3 * 3 )'
-    d = '( A + B ) * ( C + D ) * ( E + F )'
-    e = 'A + ( ( B + C ) * ( D + E ) )'
-    f = 'A * B * C * D + E + F'
-    g = '2 3 * 4 +'
-    h = '1 2 + 3 + 4 + 5 +'
-    i = '1 2 3 4 5 * + * +'
+    # d = '( A + B ) * ( C + D ) * ( E + F )'
+    # e = 'A + ( ( B + C ) * ( D + E ) )'
+    # f = 'A * B * C * D + E + F'
+    # g = '2 3 * 4 +'
+    # h = '1 2 + 3 + 4 + 5 +'
+    # i = '1 2 3 4 5 * + * +'
     # print(infix_to_postfix(a))
     # print(calculate_postfix(infix_to_postfix(b)))
     # print(calculate_postfix(infix_to_postfix(c)))
-    print(infix_to_postfix(d))
-    print(infix_to_postfix(e))
-    print(infix_to_postfix(f))
-    print(calculate_postfix(g))
-    print(calculate_postfix(h))
-    print(calculate_postfix(i))
+    # print(infix_to_postfix(d))
+    # print(infix_to_postfix(e))
+    # print(infix_to_postfix(f))
+    # print(calculate_postfix(g))
+    # print(calculate_postfix(h))
+    # print(calculate_postfix(i))
+
+    html = '''
+        <html>
+           <head>
+              <title>
+                 Example
+              </title>
+           </head>
+<br>
+           <body>
+              <h1>Hello, world</h1>
+           </body>
+        </html>'''
+    print(check_html(html))
+    
