@@ -120,16 +120,28 @@ def calculate(operand1, operand2, operator):
 
 
 if __name__ == '__main__':
-    print(is_balanced_parentheses('((()))'))
-    print(is_balanced_parentheses('(()'))
-    print(is_balanced_parentheses('{{([][])}()}'))
-    print(is_balanced_parentheses('[{()]'))
-    print(decimal_to_base(25, 8))
-    print(decimal_to_base(256, 16))
-    print(decimal_to_base(26, 26))
-    a = 'A * ( ( B + C ) / D )'
-    b = '3 * ( ( 4 + 6 ) / 5 )'
-    c = '25 + ( 12 + 15 ) / ( 3 * 3 )'
-    print(infix_to_postfix(a))
-    print(calculate_postfix(infix_to_postfix(b)))
-    print(calculate_postfix(infix_to_postfix(c)))
+    # print(is_balanced_parentheses('((()))'))
+    # print(is_balanced_parentheses('(()'))
+    # print(is_balanced_parentheses('{{([][])}()}'))
+    # print(is_balanced_parentheses('[{()]'))
+    # print(decimal_to_base(25, 8))
+    # print(decimal_to_base(256, 16))
+    # print(decimal_to_base(26, 26))
+    # a = 'A * ( ( B + C ) / D )'
+    # b = '3 * ( ( 4 + 6 ) / 5 )'
+    # c = '25 + ( 12 + 15 ) / ( 3 * 3 )'
+    d = '( A + B ) * ( C + D ) * ( E + F )'
+    e = 'A + ( ( B + C ) * ( D + E ) )'
+    f = 'A * B * C * D + E + F'
+    g = '2 3 * 4 +'
+    h = '1 2 + 3 + 4 + 5 +'
+    i = '1 2 3 4 5 * + * +'
+    # print(infix_to_postfix(a))
+    # print(calculate_postfix(infix_to_postfix(b)))
+    # print(calculate_postfix(infix_to_postfix(c)))
+    print(infix_to_postfix(d))
+    print(infix_to_postfix(e))
+    print(infix_to_postfix(f))
+    print(calculate_postfix(g))
+    print(calculate_postfix(h))
+    print(calculate_postfix(i))
