@@ -53,8 +53,8 @@ def radix_sort(alist, base=10):
             quotient = pending // digit
             digits[quotient % base].append(pending)
         for j in range(base):
-            for k in range(len(digits[j])):
-                main_bin.enqueue(digits[j][k])
+            for num in digits[j]:
+                main_bin.enqueue(num)
         digit *= base
         max_digits //= base
     return main_bin
