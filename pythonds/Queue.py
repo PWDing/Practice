@@ -37,14 +37,14 @@ def hot_potato(alist):
     return game_queue.dequeue()
 
 
-def radix_sort(alist, base):
+# base 表示进制，base=10 就表示 10 进制
+def radix_sort(alist, base=10):
     if alist is None:
         return None
 
     digit = 1
     size = len(alist)
-    maximum = max(alist)
-    max_digits = maximum
+    max_digits = max(alist)
     main_bin = Queue(alist)
     while max_digits > 0:
         digits = [[] for n in range(base)]
@@ -65,6 +65,6 @@ if __name__ == '__main__':
     print(hot_potato(players))
     
     numbers = [256, 230, 890, 257, 122, 365, 1000]
-    result = radix_sort(numbers, 10)
+    result = radix_sort(numbers)
     while not result.is_empty():
         print(result.dequeue())
