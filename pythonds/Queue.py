@@ -56,7 +56,7 @@ def radix_sort(alist, base=10):
             for num in digits[j]:
                 main_bin.enqueue(num)
         digit *= base
-        max_digits //= base
+        max_digits /= base
     return main_bin
 
 
