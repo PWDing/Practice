@@ -32,7 +32,7 @@ def hot_potato(alist):
         # 前 num-1 个玩家每次从队尾出队又从队首入队
         for i in range(num-1):
             game_queue.enqueue(game_queue.dequeue())
-        # 第 num 个玩家被淘汰 
+        # 第 num 个玩家被淘汰
         game_queue.dequeue()
     return game_queue.dequeue()
 
@@ -63,7 +63,7 @@ def radix_sort(alist, base=10):
 if __name__ == '__main__':
     players = ['ame', 'maybe', 'chalice', 'fy', 'xnova', 'pluto']
     print(hot_potato(players))
-    
+
     numbers = [256, 230, 890, 257, 122, 365, 1000]
     result = radix_sort(numbers)
     while not result.is_empty():

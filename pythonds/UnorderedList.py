@@ -29,6 +29,21 @@ class UnorderedList:
             current = current.get_next()
         return False
 
+    def pop(self, index=0):
+        if self.size() > index:
+            count = 0
+            previous = None
+            current = self.head
+            while count < index:
+                count += 1
+                previous = current
+                current = current.get_next()
+            if previous:
+                previous.set_next(current.get_next())
+            else:
+                self.head = current.get_next()
+            return current.get_data()
+
     def remove(self, item):
         found = False
         previous = None
@@ -45,7 +60,43 @@ class UnorderedList:
             self.head = current.get_next()
         else:
             previous.set_next(current.get_next())
-        return True
+        return found
+
+    def append(self, item):
+        new_node = Node.Node(item)
+        current = self.head
+        if current:
+            while current.get_next() is not None:
+                current = current.get_next()
+            current.set_next(new_node)
+        else:
+            self.head = new_node
+
+    def index(self, item):
+        index = 0
+        current = self.head
+        while current:
+            if current.get_data() != item:
+                index += 1
+                current = current.get_next()
+            else:
+                return index
+
+    def insert(self, index, item):
+        if self.size() >= index:
+            new_node = Node.Node(item)
+            count = 0
+            previous = None
+            current = self.head
+            while count < index:
+                previous = current
+                current = current.get_next()
+                count += 1
+            new_node.set_next(current)
+            if index:
+                previous.set_next(new_node)
+            else:
+                self.head = new_node
 
 
 if __name__ == '__main__':
@@ -56,8 +107,17 @@ if __name__ == '__main__':
     mylist.add(93)
     mylist.add(26)
     mylist.add(54)
-    print(mylist.size())
-    print(mylist.search(17))
-    print(mylist.remove(54))
-    print(mylist.search(54))
-    print(mylist.remove(20))
+    mylist.append(20)
+    mylist.append(9)
+    print(mylist.index(54))
+    print(mylist.index(9))
+    mylist.insert(0, 8)
+    mylist.insert(9, 5)
+    print(mylist.index(8))
+    print(mylist.index(5))
+    print(mylist.pop())
+    print(mylist.pop(8))
+    current = mylist.head
+    while current:
+        print(current.get_data())
+        current = current.get_next()
