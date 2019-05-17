@@ -27,7 +27,7 @@ class Deque:
 
 
 def check_palindrome(string):
-    pending = Deque(list(string))
+    pending = Deque(list(string.replace(' ', '')))
     while pending.size() > 1:
         if pending.del_front() != pending.del_rear():
             return False
@@ -37,5 +37,7 @@ def check_palindrome(string):
 if __name__ == '__main__':
     string1 = 'radars'
     string2 = 'toot'
+    string3 = 'iprefer pi'
     print(check_palindrome(string1))
     print(check_palindrome(string2))
+    print(check_palindrome(string3))
