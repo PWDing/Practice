@@ -7,6 +7,14 @@ class UnorderedList:
         self.tail = None
         self.length = 0
 
+    def __str__(self):
+        current = self.head
+        unordered_list = []
+        while current is not None:
+            unordered_list.append(str(current.get_data()))
+            current = current.get_next()
+        return '[' + ', '.join(unordered_list) + ']'
+
     def is_empty(self):
         return self.length == 0
 
@@ -117,7 +125,4 @@ if __name__ == '__main__':
     print(mylist.pop())
     print(mylist.pop(8))
     print(mylist.length)
-    current = mylist.head
-    while current:
-        print(current.get_data())
-        current = current.get_next()
+    print(mylist)
