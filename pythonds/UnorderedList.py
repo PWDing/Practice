@@ -4,22 +4,19 @@ import Node
 class UnorderedList:
     def __init__(self):
         self.head = None
+        self.tail = None
+        self.size = 0
 
     def is_empty(self):
-        return self.head is None
+        return self.size == 0
 
     def add(self, item):
         temp = Node.Node(item)
         temp.set_next(self.head)
+        if self.is_empty():
+            self.tail = temp
         self.head = temp
-
-    def size(self):
-        count = 0
-        current = self.head
-        while current is not None:
-            count += 1
-            current = current.get_next()
-        return count
+        self.size += 1
 
     def search(self, item):
         current = self.head
@@ -30,7 +27,7 @@ class UnorderedList:
         return False
 
     def pop(self, index=0):
-        if self.size() > index:
+        if self.size > index:
             count = 0
             previous = None
             current = self.head
@@ -42,6 +39,7 @@ class UnorderedList:
                 previous.set_next(current.get_next())
             else:
                 self.head = current.get_next()
+            self.size -= 1
             return current.get_data()
 
     def remove(self, item):
@@ -51,6 +49,7 @@ class UnorderedList:
         while current is not None and not found:
             if current.get_data() == item:
                 found = True
+                self.size -= 1
             else:
                 previous = current
                 current = current.get_next()
@@ -63,14 +62,11 @@ class UnorderedList:
         return found
 
     def append(self, item):
-        new_node = Node.Node(item)
-        current = self.head
-        if current:
-            while current.get_next() is not None:
-                current = current.get_next()
-            current.set_next(new_node)
-        else:
-            self.head = new_node
+        temp = Node.Node(item)
+        last = self.tail
+        last.set_next(temp)
+        self.tail = temp
+        self.size += 1
 
     def index(self, item):
         index = 0
@@ -83,8 +79,8 @@ class UnorderedList:
                 return index
 
     def insert(self, index, item):
-        if self.size() >= index:
-            new_node = Node.Node(item)
+        if self.size >= index:
+            temp = Node.Node(item)
             count = 0
             previous = None
             current = self.head
@@ -92,11 +88,12 @@ class UnorderedList:
                 previous = current
                 current = current.get_next()
                 count += 1
-            new_node.set_next(current)
+            temp.set_next(current)
             if index:
-                previous.set_next(new_node)
+                previous.set_next(temp)
             else:
-                self.head = new_node
+                self.head = temp
+            self.size += 1
 
 
 if __name__ == '__main__':
@@ -117,6 +114,7 @@ if __name__ == '__main__':
     print(mylist.index(5))
     print(mylist.pop())
     print(mylist.pop(8))
+    print(mylist.size)
     current = mylist.head
     while current:
         print(current.get_data())
