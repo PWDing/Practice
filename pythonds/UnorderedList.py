@@ -74,7 +74,10 @@ class UnorderedList:
     def append(self, item):
         temp = Node(item)
         last = self.tail
-        last.set_next(temp)
+        if self.is_empty():
+            self.head = temp
+        else:
+            last.set_next(temp)
         self.tail = temp
         self.length += 1
 
@@ -108,6 +111,8 @@ class UnorderedList:
 
 if __name__ == '__main__':
     mylist = UnorderedList()
+    mylist.append(0)
+    print(mylist)
     mylist.add(31)
     mylist.add(77)
     mylist.add(17)
