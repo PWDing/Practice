@@ -38,7 +38,7 @@ def make_change(change, min_coins):
     cointypes = [1, 5, 10, 21, 25]
     for cents in range(1, (change+1)):
         coin_nums = cents
-        for n in [coin for coin in cointypes if coin < cents]:
+        for n in [coin for coin in cointypes if coin <= cents]:
             temp = min_coins[cents-n] + 1
             if temp < coin_nums:
                 coin_nums = temp
