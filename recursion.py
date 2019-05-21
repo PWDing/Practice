@@ -1,6 +1,6 @@
 import turtle
 import random
-from collections import defaultdict 
+from collections import defaultdict
 
 from pythonds.Stack import Stack
 
@@ -119,6 +119,27 @@ def draw_triangle(pen, points, color):
     pen.end_fill()
 
 
+def make_pascal(row):
+    if row == 1:
+        pascal = [0, 1, 0]
+    else:
+        temp = make_pascal(row-1)
+        pascal = [0]
+        pascal.extend([temp[i]+temp[i+1] for i in range(len(temp)-1)])
+        pascal.append(0)
+    return pascal
+
+
+def draw_pascal(rows):
+    pascals = []
+    for row in range(1, rows+1):
+        pascal = ' '.join([str(num) for num in make_pascal(row) if num != 0])
+        pascals.append(pascal)
+
+    for row in pascals:
+        print(row.center(30))
+
+
 def draw_fractal_mountain(pen, points, degree):
     colors = ['blue', 'red', 'green', 'pink', 'yellow',
               'violet', 'orange', 'black']
@@ -129,12 +150,14 @@ def draw_fractal_mountain(pen, points, degree):
         height = points[1][1] - points[0][1]
         width = points[2][0] - points[0][0]
         for i in range(floor+1):
+            # 每层中小三角形的顶点坐标
             new_points = [[points[0][0]-width/2+i*width, points[0][1]-height],
                           [points[0][0]+i*width, points[0][1]],
                           [points[0][0]+width/2+i*width, points[0][1]-height]]
             draw_triangle(pen, new_points, colors[floor])
 
         floor += 1
+        # 计算下一层最左三角形的顶点坐标
         points = [[points[0][0]-width/2, points[0][1]-height],
                   [points[0][0], points[0][1]],
                   [points[0][0]+width/2, points[0][1]-height]]
@@ -296,4 +319,6 @@ if __name__ == '__main__':
 
     # cross_river(3)
 
-    water_jugs(0, 0)
+    # water_jugs(0, 0)
+
+    draw_pascal(10)
