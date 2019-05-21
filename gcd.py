@@ -1,20 +1,28 @@
-# 未完成版
-def cn_detraction(a, b):
-    p = 1
-    t = abs(a-b)
-    while t != 0:
-        if a % 2 == 0 and b % 2 == 0:
-            a /= 2
-            b /= 2
+# 更相减损法求最大公约数
+def gcd_minus(num1, num2):
+    if num1 == 0 or num2 == 0:
+        return 0
+
+    divisor = 1
+    while num1 % 2 == 0 and num2 % 2 == 0:
+        num1, num2 = num1 // 2, num2 // 2
+        divisor *= 2
+    while num1 != num2:
+        if num1 < num2:
+            num1, num2 = num2, num1
+        if num2 > num1 - num2:
+            num1, num2 = num2, num1 - num2
         else:
-            while t % 2 == 0:
-                t /= 2
-            if a >= b:
-                a = t
-            else:
-                b = t
-            t = abs(a - b)
-    return int(a * p)
+            num1 = num1 - num2
+    divisor *= num1
+    return divisor
 
 
-print(cn_detraction(18, 256))
+# 辗转相除法求最大公约数
+def gcd_divide(num1, num2):
+    if num1 == 0 or num2 == 0:
+        return 0
+
+    while num1 % num2 != 0:
+        num1, num2 = num2, num1 % num2
+    return num2

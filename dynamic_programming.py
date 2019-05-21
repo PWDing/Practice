@@ -1,3 +1,6 @@
+import gcd
+
+
 # longest common sub string
 def lcs(string1, string2):
     longest = 0
@@ -45,6 +48,16 @@ def make_change(change, min_coins):
         min_coins[cents] = coin_nums
     return min_coins[change]
 
+
+def water_jugs(jug1, jug2, aim):
+    if aim > max(jug1, jug2):
+        return False
+
+    base_jug = gcd.gcd_minus(jug1, jug2)
+    if aim % base_jug == 0:
+        return True
+    else:
+        return False
 
 if __name__ == '__main__':
     # str1 = 'happy'

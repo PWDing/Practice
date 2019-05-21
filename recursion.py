@@ -1,5 +1,6 @@
 import turtle
 import random
+from collections import defaultdict 
 
 from pythonds.Stack import Stack
 
@@ -167,6 +168,75 @@ def make_change(change, known_result):
     return min_coins
 
 
+# This function is used to initialize the
+# dictionary elements with a default value.
+# jug1 and jug2 contain the value
+# for max capacity in respective jugs
+# and aim is the amount of water to be measured.
+jug1, jug2, aim = 4, 3, 2
+
+# Initialize dictionary with
+# default value as false.
+visited = defaultdict(lambda: False)
+
+
+# Recursive function which prints the
+# intermediate steps to reach the final
+# solution and return boolean value
+# (True if solution is possible, otherwise False).
+# amt1 and amt2 are the amount of water present
+# in both jugs at a certain point of time.
+def water_jugs(amt1, amt2):
+
+    # Checks for our goal and
+    # returns true if achieved.
+    if (amt1 == aim and amt2 == 0) or (amt2 == aim and amt1 == 0):
+        if jug1 < jug2:
+            print(amt1, amt2)
+        else:
+            print(amt2, amt1)
+        return True
+
+    # Checks if we have already visited the
+    # combination or not. If not, then it proceeds further.
+    if not visited[(amt1, amt2)]:
+        print(amt1, amt2)
+
+        # Changes the boolean value of
+        # the combination as it is visited.
+        visited[(amt1, amt2)] = True
+
+        # Check for all the 6 possibilities and
+        # see if a solution is found in any one of them.
+        return (water_jugs(0, amt2) or
+                water_jugs(amt1, 0) or
+                water_jugs(jug1, amt2) or
+                water_jugs(amt1, jug2) or
+                water_jugs(amt1 + min(amt2, (jug1-amt1)),
+                amt2 - min(amt2, (jug1-amt1))) or
+                water_jugs(amt1 - min(amt1, (jug2-amt2)),
+                amt2 + min(amt1, (jug2-amt2))))
+
+    # Return False if the combination is
+    # already visited to avoid repetition otherwise
+    # recursion will enter an infinite loop.
+    else:
+        return False
+
+
+# 食人魔和传教士人数相同时，可解决的问题规模最大为3
+def cross_river(number):
+    print("Two cannibal cross the river by boat.")
+    print("One cannibal get back from other bank.")
+    print("One missionary and one cannibal cross the river by boat.")
+    print("One cannibal get back from other bank.")
+    print("Two missionaries cross the river by boat.")
+    print("One cannibal get back from other bank.")
+    print("Two cannibal cross the river by boat.")
+    print("One cannibal get back from other bank.")
+    print("Two cannibal cross the river by boat.")
+
+
 def factorial(number):
     if number < 2:
         return 1
@@ -174,7 +244,7 @@ def factorial(number):
         return number * factorial(number-1)
 
 
-# 一行代码搞定
+# 一行代码搞定反转列表
 # return alist[-1::-1]
 def reverse_list(alist):
     size = len(alist)
@@ -218,8 +288,12 @@ if __name__ == '__main__':
 
     # hanoi(4, 'A', 'B', 'C')
 
-    print(make_change(63, [0]*64))
+    # print(make_change(63, [0]*64))
 
     # my_list = ['a', 'b', 'c', 'd']
     # reverse_list(my_list)
     # print(my_list)
+
+    # cross_river(3)
+
+    water_jugs(0, 0)
