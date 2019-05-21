@@ -98,6 +98,13 @@ def get_mid(pos1, pos2):
     return [(pos1[0]+pos2[0])/2, (pos1[1]+pos2[1])/2]
 
 
+# 获取三等分点
+def get_bece(pos1, pos2):
+    point1 = [(2*pos1[0]+pos2[0])/3, (2*pos1[1]+pos2[1])/3]
+    point2 = [(pos1[0]+2*pos2[0])/3, (pos1[1]+2*pos2[1])/3]
+    return [point1, point2]
+
+
 def draw_triangle(pen, points, color):
     pen.fillcolor(color)
     pen.hideturtle()
@@ -111,6 +118,31 @@ def draw_triangle(pen, points, color):
     pen.end_fill()
 
 
+def draw_fractal_mountain(pen, points, degree):
+    colors = ['blue', 'red', 'green', 'pink', 'yellow',
+              'violet', 'orange', 'black']
+    draw_triangle(pen, points, colors[0])
+    floor = 1
+    while floor < degree:
+        # 算出小三角形的高和底边长
+        height = points[1][1] - points[0][1]
+        width = points[2][0] - points[0][0]
+        for i in range(floor+1):
+            new_points = [[points[0][0]-width/2+i*width, points[0][1]-height],
+                          [points[0][0]+i*width, points[0][1]],
+                          [points[0][0]+width/2+i*width, points[0][1]-height]]
+            draw_triangle(pen, new_points, colors[floor])
+
+        floor += 1
+        points = [[points[0][0]-width/2, points[0][1]-height],
+                  [points[0][0], points[0][1]],
+                  [points[0][0]+width/2, points[0][1]-height]]
+
+
+def draw_koch_snowflake(pen, points, degree):
+    pass
+
+
 def hanoi(n, from_rod, aux_rod, to_rod):
     if n >= 1:
         hanoi(n-1, from_rod, to_rod, aux_rod)
@@ -119,7 +151,7 @@ def hanoi(n, from_rod, aux_rod, to_rod):
 
 
 def make_change(change, known_result):
-    cointypes = [25, 10, 5, 1]
+    cointypes = [25, 21, 10, 5, 1]
     min_coins = change
     if change in cointypes:
         known_result[change] = 1
@@ -127,12 +159,29 @@ def make_change(change, known_result):
     elif known_result[change] > 0:
         return known_result[change]
     else:
-        for n in [coin for coin in cointypes if coin < change]:
+        for n in [coin for coin in cointypes if coin <= change]:
             coin_nums = 1 + make_change((change-n), known_result)
             if coin_nums < min_coins:
                 min_coins = coin_nums
                 known_result[change] = min_coins
     return min_coins
+
+
+def factorial(number):
+    if number < 2:
+        return 1
+    else:
+        return number * factorial(number-1)
+
+
+# 一行代码搞定
+# return alist[-1::-1]
+def reverse_list(alist):
+    size = len(alist)
+    mid = size // 2
+    for i in range(mid):
+        alist[i], alist[size-1-i] = alist[size-1-i], alist[i]
+    return alist
 
 
 if __name__ == '__main__':
@@ -159,11 +208,18 @@ if __name__ == '__main__':
     # my_pen.down()
     # my_pen.color("brown")
     # draw_fractal_tree(my_pen, 75, 5)
-    # my_screen.exitonclick()
 
     # my_points = [[-100, -50], [0, 100], [100, -50]]
     # draw_sierpinski(my_pen, my_points, 5)
+    # mountain_points = [[-20, -10], [0, 10], [20, -10]]
+    # draw_fractal_mountain(my_pen, mountain_points, 7)
+
+    # my_screen.exitonclick()
 
     # hanoi(4, 'A', 'B', 'C')
 
-    print(make_change(20, [0]*21))
+    print(make_change(63, [0]*64))
+
+    # my_list = ['a', 'b', 'c', 'd']
+    # reverse_list(my_list)
+    # print(my_list)

@@ -1,27 +1,27 @@
-def fib_iterable(n):
-    fib_n, fib_next = 0, 1
+def iterable(n):
+    n, next = 0, 1
     for i in range(1, n):
-        fib_n, fib_next = fib_next, fib_n + fib_next
-    return fib_n
+        n, next = next, n + next
+    return n
 
 
-def fib_divide_recursion(n):
+def divide_recursion(n):
     if n <= 2:
         return n-1
     else:
-        return fib_divide_recursion(n-1) + fib_divide_recursion(n-2)
+        return divide_recursion(n-1) + divide_recursion(n-2)
 
 
-def fib_linear_recursion(n, prev={}):
+def linear_recursion(n, prev={}):
     if n <= 2:
         return n-1
     try:
         return prev[n]
     except KeyError:
-        prev[n] = fib_linear_recursion(n - 1, prev) + fib_linear_recursion(n - 2, prev)
+        prev[n] = linear_recursion(n-1, prev) + linear_recursion(n-2, prev)
         return prev[n]
 
 
-print(fib_iterable(64))
-print(fib_linear_recursion(64))
-print(fib_divide_recursion(5))
+print(iterable(64))
+print(linear_recursion(64))
+print(divide_recursion(5))
