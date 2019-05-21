@@ -34,12 +34,27 @@ def lcq(string1, string2):
     return cells[m][n]
 
 
-str1 = 'happy'
-str2 = 'application'
-str3 = 'note'
-str4 = 'node'
-str5 = 'abcd'
-str6 = 'eacb'
-print(lcs(str1, str2))
-print(lcq(str1, str2))
-print(lcs_recursive(str1, str2))
+def make_change(change, min_coins):
+    cointypes = [1, 5, 10, 21, 25]
+    for cents in range(1, (change+1)):
+        coin_nums = cents
+        for n in [coin for coin in cointypes if coin < cents]:
+            temp = min_coins[cents-n] + 1
+            if temp < coin_nums:
+                coin_nums = temp
+        min_coins[cents] = coin_nums
+    return min_coins[change]
+
+
+if __name__ == '__main__':
+    # str1 = 'happy'
+    # str2 = 'application'
+    # str3 = 'note'
+    # str4 = 'node'
+    # str5 = 'abcd'
+    # str6 = 'eacb'
+    # print(lcs(str1, str2))
+    # print(lcq(str1, str2))
+    # print(lcs_recursive(str1, str2))
+
+    print(make_change(63, [0]*64))

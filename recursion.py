@@ -91,7 +91,7 @@ def draw_sierpinski(pen, points, degree):
         draw_sierpinski(pen, [points[2],
                               get_mid(points[2], points[0]),
                               get_mid(points[2], points[1])],
-                        degree-1) 
+                        degree-1)
 
 
 def get_mid(pos1, pos2):
@@ -116,6 +116,23 @@ def hanoi(n, from_rod, aux_rod, to_rod):
         hanoi(n-1, from_rod, to_rod, aux_rod)
         print("move top disk from {} to {}.".format(from_rod, to_rod))
         hanoi(n-1, aux_rod, from_rod, to_rod)
+
+
+def make_change(change, known_result):
+    cointypes = [25, 10, 5, 1]
+    min_coins = change
+    if change in cointypes:
+        known_result[change] = 1
+        return 1
+    elif known_result[change] > 0:
+        return known_result[change]
+    else:
+        for n in [coin for coin in cointypes if coin < change]:
+            coin_nums = 1 + make_change((change-n), known_result)
+            if coin_nums < min_coins:
+                min_coins = coin_nums
+                known_result[change] = min_coins
+    return min_coins
 
 
 if __name__ == '__main__':
@@ -148,3 +165,5 @@ if __name__ == '__main__':
     # draw_sierpinski(my_pen, my_points, 5)
 
     # hanoi(4, 'A', 'B', 'C')
+
+    print(make_change(20, [0]*21))
