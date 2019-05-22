@@ -59,6 +59,16 @@ def water_jugs(jug1, jug2, aim):
     else:
         return False
 
+
+# bag表示背包容量，items是由物品重量和价值组成的字典
+# optimal表示最优解
+def knapsack(bag, items, optimal):
+    for capacity in range(1, bag+1):
+        optimal[capacity] = 0
+        for w in [for weight in items.keys() if weight <= capacity]:
+            if items[w] > optimal[capacity-w]:
+                pass
+
 if __name__ == '__main__':
     # str1 = 'happy'
     # str2 = 'application'
