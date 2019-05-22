@@ -106,6 +106,22 @@ def draw_koch_snowflake(pen, length, degree):
             pen.left(angle)
 
 
+def draw_hilbert_curve(pen, length, degree, angle):
+    """希尔伯特曲线"""
+    if degree > 0:
+        pen.left(angle)
+        draw_hilbert_curve(pen, length, degree-1, -angle)
+        pen.forward(length)
+        pen.right(angle)
+        draw_hilbert_curve(pen, length, degree-1, angle)
+        pen.forward(length)
+        draw_hilbert_curve(pen, length, degree-1, angle)
+        pen.right(angle)
+        pen.forward(length)
+        draw_hilbert_curve(pen, length, degree-1, -angle)
+        pen.left(angle)
+
+
 def get_mid(pos1, pos2):
     return [(pos1[0]+pos2[0])/2, (pos1[1]+pos2[1])/2]
 
@@ -330,12 +346,17 @@ if __name__ == '__main__':
     # my_points = [[-100, -50], [0, 100], [100, -50]]
     # draw_sierpinski(my_pen, my_points, 5)
 
+    # my_pen.color('white')
+    # my_pen.goto(-300, 200)
+    # my_pen.color('blue')
+    # for i in range(3):
+    #     draw_koch_snowflake(my_pen, 300, 3)
+    #     my_pen.right(120)
+
     my_pen.color('white')
-    my_pen.goto(-300, 200)
+    my_pen.goto(-200, -200)
     my_pen.color('blue')
-    for i in range(3):
-        draw_koch_snowflake(my_pen, 500, 5)
-        my_pen.right(120)
+    draw_hilbert_curve(my_pen, 10, 5, 90)
 
     # mountain_points = [[-20, -10], [0, 10], [20, -10]]
     # draw_fractal_mountain(my_pen, mountain_points, 7)
