@@ -77,6 +77,7 @@ def draw_fractal_tree(turtle_obj, branch_len, pensize):
 
 
 def draw_sierpinski(pen, points, degree):
+    """谢尔宾斯基三角形"""
     colors = ['blue', 'red', 'green', 'white', 'yellow',
               'violet', 'orange']
     draw_triangle(pen, points, colors[degree])
@@ -93,6 +94,16 @@ def draw_sierpinski(pen, points, degree):
                               get_mid(points[2], points[0]),
                               get_mid(points[2], points[1])],
                         degree-1)
+
+
+def draw_koch_snowflake(pen, length, degree):
+    """科赫雪花"""
+    if degree == 0:
+        pen.forward(length)
+    else:
+        for angle in [60, -120, 60, 0]:
+            draw_koch_snowflake(pen, length/3, degree-1)
+            pen.left(angle)
 
 
 def get_mid(pos1, pos2):
@@ -141,6 +152,8 @@ def draw_pascal(rows):
 
 
 def draw_fractal_mountain(pen, points, degree):
+    """用三角形绘制分形山
+    """
     colors = ['blue', 'red', 'green', 'pink', 'yellow',
               'violet', 'orange', 'black']
     draw_triangle(pen, points, colors[0])
@@ -161,10 +174,6 @@ def draw_fractal_mountain(pen, points, degree):
         points = [[points[0][0]-width/2, points[0][1]-height],
                   [points[0][0], points[0][1]],
                   [points[0][0]+width/2, points[0][1]-height]]
-
-
-def draw_koch_snowflake(pen, points, degree):
-    pass
 
 
 def hanoi(n, from_rod, aux_rod, to_rod):
@@ -307,7 +316,8 @@ if __name__ == '__main__':
     # print(is_palindrome('Kanakanak – a town in Alaska'))
     # print(is_palindrome('Wassamassaw – a town in South Dakota'))
 
-    # my_pen = turtle.Turtle()
+    my_pen = turtle.Turtle()
+    my_pen.shape('turtle')
     # my_screen = turtle.Screen()
     # draw_spiral(my_pen, 10)
     # my_pen.left(90)
@@ -319,6 +329,14 @@ if __name__ == '__main__':
 
     # my_points = [[-100, -50], [0, 100], [100, -50]]
     # draw_sierpinski(my_pen, my_points, 5)
+
+    my_pen.color('white')
+    my_pen.goto(-300, 200)
+    my_pen.color('blue')
+    for i in range(3):
+        draw_koch_snowflake(my_pen, 500, 5)
+        my_pen.right(120)
+
     # mountain_points = [[-20, -10], [0, 10], [20, -10]]
     # draw_fractal_mountain(my_pen, mountain_points, 7)
 
