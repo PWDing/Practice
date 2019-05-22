@@ -191,6 +191,21 @@ def make_change(change, known_result):
     return min_coins
 
 
+# bag表示背包容量，wts表示每个物品占据的空间组成的列表
+# vals表示每个物品的价值，顺序和其占据空间是一致的
+# num表示物品数量
+# 直接debug可以得到正确结果，ctrl+F5不打印任何值(不知道是什么原因)
+def knapsack(bag, wts, vals, num):
+    if bag == 0 or num == 0:
+        return 0
+
+    if wts[num-1] > bag:
+        return knapsack(bag, wts, vals, num-1)
+    else:
+        return max(vals[num-1]+knapsack(bag-wts[num-1], wts, vals, num-1),
+                   knapsack(bag, wts, vals, num-1))
+
+
 # This function is used to initialize the
 # dictionary elements with a default value.
 # jug1 and jug2 contain the value
@@ -321,4 +336,10 @@ if __name__ == '__main__':
 
     # water_jugs(0, 0)
 
-    draw_pascal(10)
+    # draw_pascal(10)
+
+    # bag = 20
+    # weights = [2, 3, 4, 5, 9]
+    # values = [3, 4, 8, 8, 10]
+    # number = len(values)
+    # print(knapsack(bag, weights, values, number))

@@ -60,14 +60,48 @@ def water_jugs(jug1, jug2, aim):
         return False
 
 
-# bag表示背包容量，items是由物品重量和价值组成的字典
-# optimal表示最优解
-def knapsack(bag, items, optimal):
-    for capacity in range(1, bag+1):
-        optimal[capacity] = 0
-        for w in [for weight in items.keys() if weight <= capacity]:
-            if items[w] > optimal[capacity-w]:
-                pass
+def knapsack(items, capacity):
+    """Solve the knapsack problem
+    by finding the most valuable subsequence of items
+    that doesn't exceed capacity.
+
+    items must be a sequence of pairs (weight, worth),
+    where weight is a non-negative integer and worth is a number.
+
+    capacity is a non-negative integer.
+
+    Return the sum of values in the most valuable subsequence.
+
+    >>> items = [(2, 3), (3, 4), (4, 8), (5, 8), (9, 10)]
+    >>> knapsack(items, 20)
+    29
+
+    """
+    num = len(items)
+    optimal = [[0] * (capacity+1) for i in range(num+1)]
+    for cap in range(1, capacity+1):
+        for n in range(1, num+1):
+            # wt表示该项所需空间，worth表示该项的价值
+            wt = items[n-1][0]
+            worth = items[n-1][1]
+            if wt > cap:
+                optimal[n][cap] = optimal[n-1][cap]
+            else:
+                """这里选择optimal[n-1][cap-wt]而不是optimal[cap-wt][cap-wt]
+
+                实际上，由于每一项只能选择一次，所以当背包容量大于该项所占空间时
+                与背包容量恰好等于该项所占空间计算出的最大价值是一样的
+                即optimal[n-1][cap-wt] = optimal[cap-wt][cap-wt]
+
+                但是如果选择optimal[cap-wt][cap-wt]时，
+                可能遇到下标超出范围的问题.比如背包容量为20时，一定会超出范围
+                还可能遇到重复计算某项的问题.比如背包容量为4,实际最大价值为3
+                但是若采用后者则会计算出optimal[1][4]=6
+
+                """
+                optimal[n][cap] = max(optimal[n-1][cap],
+                                      worth + optimal[n-1][cap-wt])
+    return optimal[num][capacity]
 
 if __name__ == '__main__':
     # str1 = 'happy'
@@ -80,4 +114,7 @@ if __name__ == '__main__':
     # print(lcq(str1, str2))
     # print(lcs_recursive(str1, str2))
 
-    print(make_change(63, [0]*64))
+    # print(make_change(63, [0]*64))
+
+    # items = [(2, 3), (3, 4), (4, 8), (5, 8), (9, 10)]
+    # print(knapsack(items, 20))
