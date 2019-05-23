@@ -96,8 +96,9 @@ class HanoiEngine:
         self.moveCnt = 0
         self.moveDisplay(0)
         for t in self.towerA, self.towerB, self.towerC:
-            while t != []: t.pop(200)
-        for k in range(self.nrOfDiscs-1,-1,-1):
+            while t != []:
+                t.pop(200)
+        for k in range(self.nrOfDiscs-1, -1, -1):
             self.discs[k].config(k, self.nrOfDiscs)
             self.towerA.push(self.discs[k])
         self.ts.tracer(True)
@@ -237,9 +238,10 @@ class Hanoi:
         self.discs.set(nrOfDiscs)
         self.tempoLbl = Label(attrFrame, width=8,  height=2, font=fnt,
                               text="   speed:\n")
-        self.tempo = Scale(attrFrame, from_=1, to_=10, orient=HORIZONTAL,
-                           font=fnt, length=100, showvalue=1,repeatinterval=10,
-                           command=self.adjust_speed)
+        self.tempo = Scale(
+            attrFrame, from_=1, to_=10, orient=HORIZONTAL,
+            font=fnt, length=100, showvalue=1, repeatinterval=10,
+            command=self.adjust_speed)
         self.tempo.set(speed)
         self.moveCntLbl = Label(attrFrame, width=5, height=2, font=fnt,
                                 padx=20, text=" move:\n0", anchor=CENTER)
