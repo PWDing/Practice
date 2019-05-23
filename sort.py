@@ -10,22 +10,37 @@ def check_list(alist):
 
 def bubble_sort(alist=None):
     check_list(alist)
-    for i in range(len(alist)):
-        for j in range(i+1, len(alist)):
-            if alist[j] < alist[i]:
-                alist[i], alist[j] = alist[j], alist[i]
-    return alist
+    for i in range(len(alist)-2):
+        for j in range(i, len(alist)-1):
+            if alist[j] > alist[j+1]:
+                alist[j], alist[j+1] = alist[j+1], alist[j]
+
+
+def short_bubble(alist):
+    check_list(alist)
+    is_sorted = False
+    count = 1
+    while count < len(alist)-1 and not is_sorted:
+        # 假设已经排好序了，则所有项都不需要交换，下一轮直接退出循环即可
+        is_sorted = True
+
+        # 验证假设
+        count += 1
+        for j in range(count):
+            if alist[j] > alist[j+1]:
+                # 发生交换，说明假设错误，将标志变量重置为 false
+                is_sorted = False
+                alist[j], alist[j+1] = alist[j+1], alist[j]
 
 
 def selection_sort(alist=None):
     check_list(alist)
-    for i in range(len(alist)):
-        min_number = alist[i]
+    for i in range(len(alist)-1):
+        min_index = i
         for j in range(i+1, len(alist)):
-            if alist[j] < min_number:
-                min_number, alist[j] = alist[j], min_number
-        alist[i] = min_number
-    return alist
+            if alist[j] < alist[min_index]:
+                min_index = j
+        alist[i], alist[min_index] = alist[min_index], alist[i]
 
 
 def insert_sort(alist=None):
@@ -37,7 +52,26 @@ def insert_sort(alist=None):
                 alist[j+1] = mark
                 break
             alist[j+1] = alist[j]
-    return alist
+
+
+def shell_sort(alist=None):
+    check_list(alist)
+    size = len(alist)
+    # parts 表示将列表分成 parts 段
+    parts = size
+    while parts > 0:
+        # 采用2^k-1(1, 3, 7, 15……)作为增量，则插入排序的时间复杂度可以降到 O(n^(3/2))
+        parts //= 3
+        # 对每一段依次采用插入排序
+        for start in range(parts):
+            # start+parts 表示每一段的第二个元素的下标
+            for i in range(start+parts, size, parts):
+                postion = i
+                current = alist[i]
+                while postion >= parts and alist[postion-parts] > current:
+                    alist[postion] = alist[postion-parts]
+                    postion = postion - parts
+                alist[postion] = current
 
 
 def merge_sort(alist=None):
@@ -71,7 +105,6 @@ def merge_sort(alist=None):
         alist[merge_index] = right_half[right_index]
         right_index += 1
         merge_index += 1
-    return alist
 
 
 def quick_sort(start, end, alist=None):
@@ -83,7 +116,6 @@ def quick_sort(start, end, alist=None):
         pivot = partition(start, end, alist)
         quick_sort(start, pivot-1, alist)
         quick_sort(pivot+1, end, alist)
-    return alist
 
 
 def partition(start, end, alist=None):
@@ -159,6 +191,10 @@ def display_sort_time(sort_name, unsort_list):
         start_time = time.time()
         bubble_sort(unsort_list)
         end_time = time.time()
+    if sort_name == 'short':
+        start_time = time.time()
+        short_bubble(unsort_list)
+        end_time = time.time()
     elif sort_name == 'select':
         start_time = time.time()
         selection_sort(unsort_list)
@@ -166,6 +202,10 @@ def display_sort_time(sort_name, unsort_list):
     elif sort_name == 'insert':
         start_time = time.time()
         insert_sort(unsort_list)
+        end_time = time.time()
+    elif sort_name == 'shell':
+        start_time = time.time()
+        shell_sort(unsort_list)
         end_time = time.time()
     elif sort_name == 'merge':
         start_time = time.time()
@@ -181,8 +221,7 @@ def display_sort_time(sort_name, unsort_list):
         end_time = time.time()
     elif sort_name == 'find':
         start_time = time.time()
-        result = find_kth_smallest_num(unsort_list, len(unsort_list)//2)
-        print(result)
+        find_kth_smallest_num(unsort_list, len(unsort_list)//2)
         end_time = time.time()
     else:
         start_time = time.time()
