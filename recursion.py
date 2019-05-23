@@ -51,10 +51,10 @@ def is_palindrome(string):
 
 
 def draw_spiral(turtle_obj, line_len):
-    if length < 360:
-        turtle_obj.forward(length)
+    if line_len < 360:
+        turtle_obj.forward(line_len)
         turtle_obj.left(90)
-        draw_spiral(turtle_obj, length+5)
+        draw_spiral(turtle_obj, line_len+5)
 
 
 def draw_fractal_tree(turtle_obj, branch_len, pensize):
