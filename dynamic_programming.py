@@ -103,6 +103,36 @@ def knapsack(items, capacity):
                                       worth + optimal[n-1][cap-wt])
     return optimal[num][capacity]
 
+
+def med(origin, goal):
+    """Minimum Edit Distance
+
+    假定复制操作花费为5，插入和删除操作都为20
+    """
+    ori_len = len(origin)
+    goal_len = len(goal)
+
+    costs = {'copy': 5, 'in': 10, 'del': 20}
+    min_distances = [[0]*(goal_len+1) for n in range(ori_len+1)]
+
+    for i in range(ori_len+1):
+        for j in range(goal_len+1):
+            if i == 0:
+                min_distances[i][j] = j * costs['in']
+            elif j == 0:
+                min_distances[i][j] = i * costs['del']
+            else:
+                if origin[i-1] == goal[j-1]:
+                    cost = costs['copy']
+                else:
+                    cost = costs['in'] + costs['del']
+
+                min_distances[i][j] = min(
+                    min_distances[i-1][j] + costs['del'],
+                    min_distances[i][j-1] + costs['in'],
+                    min_distances[i-1][j-1] + cost)
+    return min_distances[ori_len][goal_len]
+
 if __name__ == '__main__':
     # str1 = 'happy'
     # str2 = 'application'
@@ -118,3 +148,7 @@ if __name__ == '__main__':
 
     # items = [(2, 3), (3, 4), (4, 8), (5, 8), (9, 10)]
     # print(knapsack(items, 20))
+
+    str1 = 'AGGCTATCACCTGACCTCCAGGCCGATGCCC'
+    str2 = 'TAGCTATCACGACCGCGGTCGATTTGCCCGAC'
+    print(med(str1, str2))

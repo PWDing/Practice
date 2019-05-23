@@ -317,6 +317,27 @@ def reverse_list(alist):
     return alist
 
 
+def med(origin, goal, ori_len, goal_len, costs):
+    """Minmum edit distance
+
+    时间复杂度过高，不适用
+    """
+
+    if ori_len == 0:
+        return costs['in'] * goal_len
+    if goal_len == 0:
+        return costs['del'] * ori_len
+
+    if origin[ori_len-1] == goal[goal_len-1]:
+        cost = costs['copy']
+    else:
+        cost = costs['in'] + costs['del']
+    return min(
+        med(origin, goal, ori_len-1, goal_len, costs) + costs['in'],
+        med(origin, goal, ori_len, goal_len-1, costs) + costs['del'],
+        med(origin, goal, ori_len-1, goal_len-1, costs) + cost)
+
+
 if __name__ == '__main__':
     # print(convert_to_base(256, 16))
     # print(convert_to_base(1453, 16))
@@ -332,8 +353,8 @@ if __name__ == '__main__':
     # print(is_palindrome('Kanakanak – a town in Alaska'))
     # print(is_palindrome('Wassamassaw – a town in South Dakota'))
 
-    my_pen = turtle.Turtle()
-    my_pen.shape('turtle')
+    # my_pen = turtle.Turtle()
+    # my_pen.shape('turtle')
     # my_screen = turtle.Screen()
     # draw_spiral(my_pen, 10)
     # my_pen.left(90)
@@ -353,10 +374,10 @@ if __name__ == '__main__':
     #     draw_koch_snowflake(my_pen, 300, 3)
     #     my_pen.right(120)
 
-    my_pen.color('white')
-    my_pen.goto(-200, -200)
-    my_pen.color('blue')
-    draw_hilbert_curve(my_pen, 10, 5, 90)
+    # my_pen.color('white')
+    # my_pen.goto(-200, -200)
+    # my_pen.color('blue')
+    # draw_hilbert_curve(my_pen, 10, 5, 90)
 
     # mountain_points = [[-20, -10], [0, 10], [20, -10]]
     # draw_fractal_mountain(my_pen, mountain_points, 7)
@@ -382,3 +403,10 @@ if __name__ == '__main__':
     # values = [3, 4, 8, 8, 10]
     # number = len(values)
     # print(knapsack(bag, weights, values, number))
+
+    # str1 = 'AGGCTATC'
+    # str2 = 'TAGCTATGA'
+    # len1 = len(str1)
+    # len2 = len(str2)
+    # costs = {'copy': 5, 'in': 20, 'del': 20}
+    # print(med(str1, str2, len1, len2, costs))
