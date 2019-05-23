@@ -118,9 +118,9 @@ def med(origin, goal):
     for i in range(ori_len+1):
         for j in range(goal_len+1):
             if i == 0:
-                min_distances[i][j] = j * costs['in']
+                min_distances[i][j] = min_distances[i][j-1] + costs['in']
             elif j == 0:
-                min_distances[i][j] = i * costs['del']
+                min_distances[i][j] = min_distances[i-1][j] + costs['del']
             else:
                 if origin[i-1] == goal[j-1]:
                     cost = costs['copy']
