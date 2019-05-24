@@ -2,14 +2,7 @@ import time
 import random
 
 
-def check_list(alist):
-    if alist is None:
-        alist = []
-    return alist
-
-
-def bubble_sort(alist=None):
-    check_list(alist)
+def bubble_sort(alist):
     for i in range(len(alist)-2):
         for j in range(i, len(alist)-1):
             if alist[j] > alist[j+1]:
@@ -17,7 +10,6 @@ def bubble_sort(alist=None):
 
 
 def short_bubble(alist):
-    check_list(alist)
     is_sorted = False
     count = 1
     while count < len(alist)-1 and not is_sorted:
@@ -33,8 +25,7 @@ def short_bubble(alist):
                 alist[j], alist[j+1] = alist[j+1], alist[j]
 
 
-def selection_sort(alist=None):
-    check_list(alist)
+def selection_sort(alist):
     for i in range(len(alist)-1):
         min_index = i
         for j in range(i+1, len(alist)):
@@ -43,8 +34,7 @@ def selection_sort(alist=None):
         alist[i], alist[min_index] = alist[min_index], alist[i]
 
 
-def insert_sort(alist=None):
-    check_list(alist)
+def insert_sort(alist):
     for i in range(1, len(alist)):
         mark = alist[i]
         for j in range(i-1, -1, -1):
@@ -54,8 +44,7 @@ def insert_sort(alist=None):
             alist[j+1] = alist[j]
 
 
-def shell_sort(alist=None):
-    check_list(alist)
+def shell_sort(alist):
     size = len(alist)
     # parts 表示将列表分成 parts 段
     parts = size
@@ -74,37 +63,38 @@ def shell_sort(alist=None):
                 alist[postion] = current
 
 
-def merge_sort(alist=None):
-    check_list(alist)
-    if len(alist) <= 1:
-        return alist
-    mid = len(alist) // 2
-    left_half = alist[:mid]
-    right_half = alist[mid:]
+def merge_sort(alist):
+    size = len(alist)
+    if size > 1:
+        mid = size // 2
+        left_half = alist[:mid]
+        right_half = alist[mid:]
 
-    merge_sort(left_half)
-    merge_sort(right_half)
+        merge_sort(left_half)
+        merge_sort(right_half)
 
-    left_index = 0
-    right_index = 0
-    merge_index = 0
+        left_index = 0
+        right_index = 0
+        merge_index = 0
+        left_size = len(left_half)
+        right_size = len(right_half)
 
-    while left_index < len(left_half) and right_index < len(right_half):
-        if left_half[left_index] < right_half[right_index]:
+        while left_index < left_size and right_index < right_size:
+            if left_half[left_index] < right_half[right_index]:
+                alist[merge_index] = left_half[left_index]
+                left_index += 1
+            else:
+                alist[merge_index] = right_half[right_index]
+                right_index += 1
+            merge_index += 1
+        while left_index < left_size:
             alist[merge_index] = left_half[left_index]
             left_index += 1
-        else:
+            merge_index += 1
+        while right_index < right_size:
             alist[merge_index] = right_half[right_index]
             right_index += 1
-        merge_index += 1
-    while left_index < len(left_half):
-        alist[merge_index] = left_half[left_index]
-        left_index += 1
-        merge_index += 1
-    while right_index < len(right_half):
-        alist[merge_index] = right_half[right_index]
-        right_index += 1
-        merge_index += 1
+            merge_index += 1
 
 
 def quick_sort(start, end, alist=None):
