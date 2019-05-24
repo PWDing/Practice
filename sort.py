@@ -102,9 +102,12 @@ def merge_sort(alist):
 def quick_sort(alist, first, last):
     if first < last:
         # 从列表中的首数、中间数和尾数中选择中位数作为基准，即求这三个数中第二小的数
-        pivot = find_kth_smallest_num([alist[first],
-                                       alist[(first+last)//2],
-                                       alist[last]], 2)
+        # pivot = find_kth_smallest_num([alist[first],
+        #                                alist[(first+last)//2],
+        #                                alist[last]], 2)
+
+        # 选择首数作为基准
+        pivot = alist[first]
         start = first + 1
         end = last
         while start <= end:
