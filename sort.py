@@ -3,26 +3,28 @@ import random
 
 
 def bubble_sort(alist):
-    for i in range(len(alist)-2):
-        for j in range(i, len(alist)-1):
-            if alist[j] > alist[j+1]:
-                alist[j], alist[j+1] = alist[j+1], alist[j]
+    size = len(alist)
+    for i in range(size-1):
+        for j in range(size-1, i, -1):
+            if alist[j-1] > alist[j]:
+                alist[j-1], alist[j] = alist[j], alist[j-1]
 
 
 def short_bubble(alist):
+    index = 0
+    size = len(alist)
     is_sorted = False
-    count = 1
-    while count < len(alist)-1 and not is_sorted:
+    while index < size-1 and not is_sorted:
         # 假设已经排好序了，则所有项都不需要交换，下一轮直接退出循环即可
         is_sorted = True
 
         # 验证假设
-        count += 1
-        for j in range(count):
-            if alist[j] > alist[j+1]:
+        index += 1
+        for j in range(size-1, index, -1):
+            if alist[j-1] > alist[j]:
                 # 发生交换，说明假设错误，将标志变量重置为 false
                 is_sorted = False
-                alist[j], alist[j+1] = alist[j+1], alist[j]
+                alist[j-1], alist[j] = alist[j], alist[j-1]
 
 
 def selection_sort(alist):
@@ -36,10 +38,10 @@ def selection_sort(alist):
 
 def insert_sort(alist):
     for i in range(1, len(alist)):
-        mark = alist[i]
+        current = alist[i]
         for j in range(i-1, -1, -1):
-            if alist[j] <= mark:
-                alist[j+1] = mark
+            if alist[j] <= current:
+                alist[j+1] = current
                 break
             alist[j+1] = alist[j]
 
@@ -97,32 +99,28 @@ def merge_sort(alist):
             merge_index += 1
 
 
-def quick_sort(start, end, alist=None):
-    check_list(alist)
-    if len(alist) <= 1:
-        return alist
+def quick_sort(alist, first, last):
+    if first < last:
+        # 从列表中的首数、中间数和尾数中选择中位数作为基准，即求这三个数中第二小的数
+        pivot = find_kth_smallest_num([alist[first],
+                                       alist[(first+last)//2],
+                                       alist[last]], 2)
+        start = first + 1
+        end = last
+        while start <= end:
+            while start <= end and alist[start] <= pivot:
+                start += 1
+            while start <= end and alist[end] >= pivot:
+                end -= 1
+            if start <= end:
+                alist[start], alist[end] = alist[end], alist[start]
+        alist[first], alist[end] = alist[end], alist[first]
 
-    if start < end:
-        pivot = partition(start, end, alist)
-        quick_sort(start, pivot-1, alist)
-        quick_sort(pivot+1, end, alist)
-
-
-def partition(start, end, alist=None):
-    pivot = start - 1
-    reference = alist[end]
-    for i in range(start, end):
-        if alist[i] <= reference:
-            pivot += 1
-            alist[pivot], alist[i] = alist[i], alist[pivot]
-    pivot += 1
-    alist[pivot], alist[end] = alist[end], alist[pivot]
-    return pivot
+        quick_sort(alist, first, end-1)
+        quick_sort(alist, end+1, last)
 
 
 def heapify(alist, root, size):
-    check_list(alist)
-
     largest = root
     left_child = root * 2 + 1
     right_child = root * 2 + 2
@@ -137,8 +135,6 @@ def heapify(alist, root, size):
 
 
 def heap_sort(alist):
-    check_list(alist)
-
     # build max-heap
     sub_node = len(alist) // 2 - 1
     while sub_node >= 0:
@@ -181,34 +177,42 @@ def display_sort_time(sort_name, unsort_list):
         start_time = time.time()
         bubble_sort(unsort_list)
         end_time = time.time()
+        print(unsort_list)
     if sort_name == 'short':
         start_time = time.time()
         short_bubble(unsort_list)
         end_time = time.time()
+        print(unsort_list)
     elif sort_name == 'select':
         start_time = time.time()
         selection_sort(unsort_list)
         end_time = time.time()
+        print(unsort_list)
     elif sort_name == 'insert':
         start_time = time.time()
         insert_sort(unsort_list)
         end_time = time.time()
+        print(unsort_list)
     elif sort_name == 'shell':
         start_time = time.time()
         shell_sort(unsort_list)
         end_time = time.time()
+        print(unsort_list)
     elif sort_name == 'merge':
         start_time = time.time()
         merge_sort(unsort_list)
         end_time = time.time()
+        print(unsort_list)
     elif sort_name == 'quick':
         start_time = time.time()
-        quick_sort(0, len(unsort_list)-1, unsort_list)
+        quick_sort(unsort_list, 0, len(unsort_list)-1)
         end_time = time.time()
+        print(unsort_list)
     elif sort_name == 'heap':
         start_time = time.time()
         heap_sort(unsort_list)
         end_time = time.time()
+        print(unsort_list)
     elif sort_name == 'find':
         start_time = time.time()
         find_kth_smallest_num(unsort_list, len(unsort_list)//2)
@@ -218,11 +222,11 @@ def display_sort_time(sort_name, unsort_list):
         end_time = time.time()
 
     print("Sort Method".center(36))
-    print("{} sort's cost is {}".format(sort_name, (end_time-start_time)))
+    print("{} sort's cost is {}".format(sort_name, end_time-start_time))
     print("*" * 52)
 
 
-test_list = list(range(1, 10000))
+test_list = list(range(2200))
 random.shuffle(test_list)
 while True:
     backup = test_list[:]
