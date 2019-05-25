@@ -101,11 +101,6 @@ def merge_sort(alist):
 
 def quick_sort(alist, first, last):
     if first < last:
-        # 从列表中的首数、中间数和尾数中选择中位数作为基准，即求这三个数中第二小的数
-        # pivot = find_kth_smallest_num([alist[first],
-        #                                alist[(first+last)//2],
-        #                                alist[last]], 2)
-
         # 选择首数作为基准
         pivot = alist[first]
         start = first + 1
@@ -150,88 +145,53 @@ def heap_sort(alist):
         heapify(alist, 0, i)
 
 
-def find_kth_smallest_num(alist, k):
-    if len(alist) < k:
-        return None
-
-    # find the largest number
-    maximum = 0
-    for num in alist:
-        if num > maximum:
-            maximum = num
-
-    # generate an array of size maximum
-    max_size_array = [0] * (maximum + 1)
-    # record pending numbers and count their occurrence
-    for num in alist:
-        max_size_array[num] += 1
-
-    counter = 0
-    for i in range(maximum+1):
-        while max_size_array[i]:
-            counter += 1
-            if counter == k:
-                return i
-            max_size_array[i] -= 1
-
-
 def display_sort_time(sort_name, unsort_list):
     if sort_name == 'bubble':
         start_time = time.time()
         bubble_sort(unsort_list)
         end_time = time.time()
-        print(unsort_list)
-    if sort_name == 'short':
+    elif sort_name == 'short':
         start_time = time.time()
         short_bubble(unsort_list)
         end_time = time.time()
-        print(unsort_list)
     elif sort_name == 'select':
         start_time = time.time()
         selection_sort(unsort_list)
         end_time = time.time()
-        print(unsort_list)
     elif sort_name == 'insert':
         start_time = time.time()
         insert_sort(unsort_list)
         end_time = time.time()
-        print(unsort_list)
     elif sort_name == 'shell':
         start_time = time.time()
         shell_sort(unsort_list)
         end_time = time.time()
-        print(unsort_list)
     elif sort_name == 'merge':
         start_time = time.time()
         merge_sort(unsort_list)
         end_time = time.time()
-        print(unsort_list)
     elif sort_name == 'quick':
         start_time = time.time()
         quick_sort(unsort_list, 0, len(unsort_list)-1)
         end_time = time.time()
-        print(unsort_list)
     elif sort_name == 'heap':
         start_time = time.time()
         heap_sort(unsort_list)
         end_time = time.time()
-        print(unsort_list)
-    elif sort_name == 'find':
-        start_time = time.time()
-        find_kth_smallest_num(unsort_list, len(unsort_list)//2)
-        end_time = time.time()
     else:
-        start_time = time.time()
-        end_time = time.time()
+        start_time = 0
+        end_time = 0
 
+    print(unsort_list)
     print("Sort Method".center(36))
     print("{} sort's cost is {}".format(sort_name, end_time-start_time))
     print("*" * 52)
 
 
-test_list = list(range(2200))
-random.shuffle(test_list)
-while True:
-    backup = test_list[:]
-    sort_method_name = input("Please enter sort method name: ")
-    display_sort_time(sort_method_name, backup)
+if __name__ == '__main__':
+    test_list = list(range(10000))
+    random.shuffle(test_list)
+    while True:
+        mylist = test_list[:]
+        sort_method_name = input("Please enter sort method name: ")
+        display_sort_time(sort_method_name, mylist)
