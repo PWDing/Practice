@@ -1,1 +1,1 @@
-# practice
+# the practice for problem solving with data structures and algorithms using Python.

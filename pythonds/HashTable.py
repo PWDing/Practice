@@ -13,6 +13,22 @@ class HashTable:
     def __getitem__(self, key):
         return self.get(key)
 
+    def __len__(self):
+        return self.get_len()
+
+    def __contains__(self, key):
+        for i in range(len(self.slots)):
+            if self.slots[i] == key:
+                return True
+        return False
+
+    def get_len(self):
+        count = 0
+        for i in range(len(self.data)):
+            if self.data[i] is not None:
+                count += 1
+        return count
+
     def put(self, key, value):
         slot_idx = self.hash_func(key)
         if self.slots[slot_idx] is None:
@@ -70,3 +86,4 @@ if __name__ == '__main__':
     my_hash[20] = "chicken"
     print(my_hash.slots)
     print(my_hash.data)
+    print(len(my_hash))
