@@ -69,34 +69,37 @@ def merge_sort(alist):
     size = len(alist)
     if size > 1:
         mid = size // 2
-        left_half = alist[:mid]
-        right_half = alist[mid:]
+        left = alist[:mid]
+        right = alist[mid:]
 
-        merge_sort(left_half)
-        merge_sort(right_half)
+        merge_sort(left)
+        merge_sort(right)
+        merge(alist, left, right)
 
-        left_index = 0
-        right_index = 0
-        merge_index = 0
-        left_size = len(left_half)
-        right_size = len(right_half)
 
-        while left_index < left_size and right_index < right_size:
-            if left_half[left_index] < right_half[right_index]:
-                alist[merge_index] = left_half[left_index]
-                left_index += 1
-            else:
-                alist[merge_index] = right_half[right_index]
-                right_index += 1
-            merge_index += 1
-        while left_index < left_size:
+def merge(alist, left_half, right_half):
+    left_index = 0
+    right_index = 0
+    merge_index = 0
+    left_size = len(left_half)
+    right_size = len(right_half)
+
+    while left_index < left_size and right_index < right_size:
+        if left_half[left_index] < right_half[right_index]:
             alist[merge_index] = left_half[left_index]
             left_index += 1
-            merge_index += 1
-        while right_index < right_size:
+        else:
             alist[merge_index] = right_half[right_index]
             right_index += 1
-            merge_index += 1
+        merge_index += 1
+    while left_index < left_size:
+        alist[merge_index] = left_half[left_index]
+        left_index += 1
+        merge_index += 1
+    while right_index < right_size:
+        alist[merge_index] = right_half[right_index]
+        right_index += 1
+        merge_index += 1
 
 
 def quick_sort(alist, first, last):

@@ -5,7 +5,7 @@ import sort
 
 
 def linear_search(alist, goal):
-    if alist is None or alist == []:
+    if alist is None:
         return False
     size = len(alist)
     for i in range(size):
