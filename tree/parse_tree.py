@@ -43,7 +43,59 @@ def evaluate(parse_tree):
         return parse_tree.get_root()
 
 
+def preorder(atree):
+    if atree:
+        print(atree.get_root())
+        preorder(atree.get_left_child())
+        preorder(atree.get_right_child())
+
+
+def inorder(atree):
+    infix_exp = ''
+    if atree:
+        infix_exp = '(' + inorder(atree.get_left_child())
+        infix_exp += str(atree.get_root())
+        infix_exp += inorder(atree.get_right_child()) + ')'
+    return infix_exp
+
+
+def elimate(string):
+    tolist = list(string)
+    for i in range(len(tolist)):
+        if tolist[i-1] == '(' and tolist[i+1] == ')':
+            tolist[i-1] = ' '
+            tolist[i+1] = ' '
+    new_list = [char for char in tolist if char != ' ']
+    infix = ''
+    for item in new_list:
+        infix += item
+    return infix
+
+
+def postorder(atree):
+    if atree:
+        postorder(atree.get_left_child())
+        postorder(atree.get_right_child())
+        print(atree.get_root())
+
+
+def postorder_evaluate(atree):
+    left_result = None
+    right_result = None
+    if atree:
+        left_result = postorder_evaluate(atree.get_left_child())
+        right_result = postorder_evaluate(atree.get_right_child())
+        if left_result and right_result:
+            return calculate(left_result, right_result, atree.get_root())
+        else:
+            return atree.get_root()
+
+
 if __name__ == '__main__':
     test_exp = '( 3 * ( 4 + 5 ) )'
-    print(parse_tree(test_exp))
-    print(evaluate(parse_tree(test_exp)))
+    result = parse_tree(test_exp)
+    preorder(result)
+    print(elimate(inorder(result)))
+    postorder(result)
+    print(evaluate(result))
+    print(postorder_evaluate(result))
