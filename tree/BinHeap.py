@@ -13,11 +13,24 @@ class BinHeap:
             else:
                 break
 
+    def percolate_down(self, pos):
+        while 2 * pos <= self.size:
+            min_child_idx = self.get_min_child(pos)
+            if self.items[pos] > self.items[min_child_idx]:
+                self.items[pos], self.items[min_child_idx] = \
+                    self.items[min_child_idx], self.items[pos]
+            pos = min_child_idx
+
     def get_min_child(self, pos):
-        if self.items[2*pos] < self.items[2*pos+1]:
-            return 2 * pos
+        left_child = 2 * pos
+        right_child = 2 * pos + 1
+        if right_child > self.size:
+            return left_child
         else:
-            return 2 * pos + 1
+            if self.items[left_child] < self.items[right_child]:
+                return left_child
+            else:
+                return right_child
 
     def insert(self, new_added):
         self.items.append(new_added)
@@ -30,6 +43,7 @@ class BinHeap:
         minimum = self.items[1]
         self.items[1] = self.items.pop()
         self.size -= 1
+        self.percolate_down(1)
         return minimum
 
 
@@ -38,5 +52,6 @@ if __name__ == '__main__':
     test.insert(8)
     test.insert(9)
     test.insert(3)
+    test.del_min()
     for item in test.items:
         print(item)
