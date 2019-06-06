@@ -22,15 +22,15 @@ class BinHeap:
             pos = min_child_idx
 
     def get_min_child(self, pos):
-        left_child = 2 * pos
-        right_child = 2 * pos + 1
-        if right_child > self.size:
-            return left_child
+        lchild = 2 * pos
+        rchild = 2 * pos + 1
+        if rchild > self.size:
+            return lchild
         else:
-            if self.items[left_child] < self.items[right_child]:
-                return left_child
+            if self.items[lchild] < self.items[rchild]:
+                return lchild
             else:
-                return right_child
+                return rchild
 
     def insert(self, new_added):
         self.items.append(new_added)
@@ -41,10 +41,19 @@ class BinHeap:
         if self.size < 1:
             return False
         minimum = self.items[1]
-        self.items[1] = self.items.pop()
+        self.items[1] = self.items[self.size]
         self.size -= 1
+        self.items.pop()
         self.percolate_down(1)
         return minimum
+
+    def build_heap(self, alist):
+        self.items.extend(alist[:])
+        self.size += len(alist)
+        index = self.size // 2
+        while index > 0:
+            self.percolate_down(index)
+            index -= 1
 
 
 if __name__ == '__main__':
@@ -53,5 +62,13 @@ if __name__ == '__main__':
     test.insert(9)
     test.insert(3)
     test.del_min()
+    test.build_heap([4, 6, 2, 1])
+    print(test.del_min())
+    print(test.del_min())
+    print(test.del_min())
+    print(test.del_min())
+    print(test.del_min())
+    print(test.del_min())
+    print(test.del_min())
     for item in test.items:
         print(item)
