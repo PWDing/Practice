@@ -31,7 +31,7 @@ texts = [font.render(str(i), True, (0, 255, 0)) for i in range(10)]
 #     font.render(str(letter[i]), True, (0, 255, 0)) for i in range(26)
 # ]
 
-# 按屏幕的宽带计算可以在画板上放几列坐标并生成一个列表
+# 按屏幕的宽度计算可以在画板上放几列坐标，并生成一个规模为 column，所有元素为 0 列表
 column = int(PANEL_width / FONT_PX)
 drops = [0 for i in range(column)]
 
@@ -41,7 +41,6 @@ while True:
         if event.type == pygame.QUIT:
             exit()
         elif event.type == pygame.KEYDOWN:
-
             chang = pygame.key.get_pressed()
             if(chang[32]):
                 exit()
