@@ -1,4 +1,4 @@
-class HashTable:
+class Map:
     def __init__(self, size=None):
         if size is None:
             self.size = 11
@@ -74,7 +74,7 @@ class HashTable:
 
 
 if __name__ == '__main__':
-    my_hash = HashTable()
+    my_hash = Map()
     my_hash[54] = "cat"
     my_hash[26] = "dog"
     my_hash[93] = "lion"
