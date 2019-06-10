@@ -1,6 +1,7 @@
 import json
 import pygal
 from pygal_maps_world.i18n import COUNTRIES
+# from pygal.maps.world import COUNTRIES
 from pygal.style import RotateStyle as rs
 from pygal.style import LightColorizedStyle as lcs
 
@@ -37,6 +38,5 @@ wm.title = 'World Populations in 2010'
 # wm.add('2010', cc_populations)
 wm.add('less than 10m', cc_pop_1)
 wm.add('10m to 1bn', cc_pop_2)
-wm.add('more than 1bn',cc_pop_3)
+wm.add('more than 1bn', cc_pop_3)
 wm.render_to_file('world_populations.svg')
-   
