@@ -117,6 +117,84 @@ class BinSearchTree:
         self.delete(key)
 
 
+class AVL_Tree(BinSearchTree):
+    def _put(self, key, value, current):
+        if key < current.key:
+            if current.has_left_child():
+                self._put(key, value, current.lchild)
+            else:
+                current.lchild = TreeNode(key, value)
+                self.update_balance(current.lchild)
+        else:
+            if current.has_right_child():
+                self._put(key, value, current.rchild)
+            else:
+                current.rchild = TreeNode(key, value)
+                self.update_balance(current.rchild)
+
+    def update_balance(self, node):
+        if node.balance > 1 or node.balance < -1:
+            self.rebalance(node)
+            return
+
+        if node.parent is not None:
+            if node.is_left_child():
+                node.balance += 1
+            else:
+                node.balance -= 1
+
+        if node.parent.balance != 0:
+            self.update_balance(node.parent)
+
+    def rebalance(self, node):
+        if node.balance > 0:
+            if node.lchild.balance < 0:
+                self.rotate_left(node.lchild)
+            self.rotate_right(node)
+        elif node.balance < 0:
+            if node.rchild.balance > 0:
+                self.rotate_right(node.rchild)
+            self.rotate_left(node)
+
+    def rotate_left(self, old_root):
+        new_root = old_root.rchild
+        old_root.rchild = new_root.lchild
+        if new_root.lchild is not None:
+            new_root.lchild.parent = old_root
+        new_root.parent = old_root.parent
+        if old_root.is_root():
+            self.root = new_root
+        else:
+            if old_root.is_left_child():
+                old_root.parent.lchild = new_root
+            else:
+                old_root.parent.rchild = new_root
+
+        new_root.lchild = old_root
+        old_root.parent = new_root
+        old_root.balance = old_root.balance - min(new_root.balance, 0) + 1
+        new_root.balance = new_root.balance + max(old_root.balance, 0) + 1
+
+    def rotate_right(self, old_root):
+        new_root = old_root.lchild
+        old_root.lchild = new_root.rchild
+        if new_root.rchild is not None:
+            new_root.rchild.parent = old_root
+        new_root.parent = old_root.parent
+        if old_root.is_root():
+            self.root = new_root
+        else:
+            if old_root.is_left_child():
+                old_root.parent.lchild = new_root
+            else:
+                old_root.parent.rchild = new_root
+
+        new_root.rchild = old_root
+        old_root.parent = new_root
+        old_root.balance = old_root.balance - max(new_root.balance, 0) - 1
+        new_root.balance = new_root.balance + min(old_root.balance, 0) - 1
+
+
 class TreeNode:
 
     def __init__(self, key, value, left=None, right=None, parent=None):
