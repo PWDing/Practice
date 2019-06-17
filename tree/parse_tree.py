@@ -59,7 +59,7 @@ def inorder(atree):
     return infix_exp
 
 
-def elimate(string):
+def eliminate(string):
     tolist = list(string)
     for i in range(len(tolist)):
         if tolist[i-1] == '(' and tolist[i+1] == ')':
@@ -92,10 +92,11 @@ def postorder_evaluate(atree):
 
 
 if __name__ == '__main__':
-    test_exp = '( 3 * ( 4 + 5 ) )'
+    # test_exp = '( 3 * ( 4 + 5 ) )'
+    test_exp = '( ( ( 4 * 8 ) / 6 ) - 3 )'
     result = parse_tree(test_exp)
-    preorder(result)
-    print(elimate(inorder(result)))
+    # preorder(result)
+    print(eliminate(inorder(result)))
     postorder(result)
-    print(evaluate(result))
-    print(postorder_evaluate(result))
+    # print(evaluate(result))
+    # print(postorder_evaluate(result))
