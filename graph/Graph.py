@@ -1,3 +1,6 @@
+from pythonds.Queue import Queue
+
+
 class Graph:
     def __init__(self):
         self.vertices = {} 
@@ -49,6 +52,29 @@ class Vertex:
 
     def get_weight(self, neighbor):
         return self.connected_nodes[add_neighbor]
+
+
+# word ladder problem
+def build_graph(word_file):
+    word_dict = {}
+    word_graph = Graph()
+    # create buckets of words that differ by one letter
+    with open(word_file) as wf:
+        for line in wf:
+            word = line[:-1]
+            for i in range(len(word)):
+                bucket = word[:i] + '_' + word[i+1:]
+                if bucket in word_dict:
+                    word_dict[bucket].append(word)
+                else:
+                    word_dict[bucket] = [word]
+    # add vertices and edges for words in the same bucket
+    for bucket in word_dict.keys():
+        for word1 in word_dict[bucket]:
+            for word2 in word_dict[bucket]:
+                if word1 != word2:
+                    word_graph.add_edge(word1, word2)
+    return word_graph
 
 
 if __name__ == '__main__':
