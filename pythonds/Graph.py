@@ -45,6 +45,15 @@ class Vertex:
         return str(self.id) + ' Connected to: '\
                + str([x.id for x in self.connected_nodes])
 
+    def set_color(self, color):
+        self.color = color
+
+    def set_distance(self, distance):
+        self.distance = distance
+
+    def set_predecessor(self, predecessor):
+        self.predecessor = predecessor
+
     def add_neighbor(self, neighbor, weight=0):
         self.connected_nodes[neighbor] = weight
 
@@ -53,6 +62,12 @@ class Vertex:
 
     def get_id(self):
         return self.id
+
+    def get_color(self):
+        return self.color
+
+    def get_distance(self):
+        return self.distance
 
     def get_weight(self, neighbor):
         return self.connected_nodes[add_neighbor]
@@ -79,6 +94,30 @@ def build_graph(word_file):
                 if word1 != word2:
                     word_graph.add_edge(word1, word2)
     return word_graph
+
+
+def bfs(agraph, start):
+    start.set_distance(0)
+    start.set_predecessor(None)
+    vertex_queue = Queue()
+    vertex_queue.enqueue(start)
+    while vertex_queue.size() > 0:
+        current = vertex_queue.dequeue()
+        for neighbor in current.get_connections():
+            if neighbor.get_color() == 'white':
+                neighbor.set_color('gray')
+                neighbor.set_distance(current.get_distance()+1)
+                neighbor.set_predecessor(current)
+                vertex_queue.enqueue(neighbor)
+        current.set_color('black')
+
+
+def traverse(node):
+    path = node
+    while path.get_predecessor():
+        print(path.get_id)
+        path = path.get_predecessor()
+    print(path.get_id())
 
 
 if __name__ == '__main__':
