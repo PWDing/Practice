@@ -1,3 +1,6 @@
+from pythonds.Queue import Queue
+
+
 class Graph:
     def __init__(self):
         self.vertices = {} 
@@ -34,9 +37,13 @@ class Vertex:
     def __init__(self, key):
         self.id = key
         self.connected_nodes = {}
+        self.color = 'white'
+        self.distance = 0
+        self.predecessor = None
 
     def __str__(self):
-        return str(self.id) + ' Connected to: ' + str([x.id for x in self.connected_nodes])
+        return str(self.id) + ' Connected to: '\
+               + str([x.id for x in self.connected_nodes])
 
     def add_neighbor(self, neighbor, weight=0):
         self.connected_nodes[neighbor] = weight
