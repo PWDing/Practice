@@ -74,7 +74,7 @@ class Vertex:
 
 
 # word ladder problem
-def build_graph(word_file):
+def build_word_graph(word_file):
     word_dict = {}
     word_graph = Graph()
     # create buckets of words that differ by one letter
@@ -118,6 +118,42 @@ def traverse(node):
         print(path.get_id)
         path = path.get_predecessor()
     print(path.get_id())
+
+
+# The Knight's Tour puzzle, cheeseboard means board size
+def build_knight_graph(cheeseboard):
+    knight = Graph()
+    for row in range(cheeseboard):
+        for col in range(cheeseboard):
+            node = position_to_node(row, col, cheeseboard)
+            next_positions = get_legal_moves(row, col, cheeseboard)
+            for pos in next_positions:
+                next_node = position_to_node(pos[0], pos[1], cheeseboard)
+                knight.add_edge(node, next_node)
+    return knight
+
+
+def position_to_node(row, col, cheeseboard):
+    return row * cheeseboard + col
+
+
+def get_legal_moves(pos_x, pos_y, cheeseboard):
+    next_moves = []
+    move_offsets = [(-2, -1), (-2, 1), (-1, -2), (-1, 2),
+                    (1, -2), (1, 2), (2, -1), (2, 1)]
+    for offset in move_offsets:
+        next_x = pos_x + offset[0]
+        next_y = pos_y + offset[1]
+        if check_coord(next_x) and check_coord(next_y):
+            next_moves.append((next_x, next_y))
+    return next_moves
+
+
+def check_coord(x, cheeseboard):
+    if x >= 0 and x < cheeseboard:
+        return True
+    else:
+        return False
 
 
 if __name__ == '__main__':
