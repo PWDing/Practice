@@ -1,14 +1,9 @@
-import requests
-import re
-from bs4 import BeautifulSoup as bs
-import json
-from lxml import etree
-import pandas as pd
-from fake_useragent import UserAgent
 import os
-import sys
-from urllib import parse
+import re
+import json
 import datetime
+import requests
+from urllib import parse
 
 
 class History:
@@ -99,8 +94,10 @@ class History:
                 os.mkdir(folder_path)
             path = r"data/学习强国/" + info[3] + r"/" + info[0] + ".txt"
             with open(path, "a+", encoding="utf-8") as f:
+                print("写入标题：")
                 f.write(info[1])
                 f.write("\n")
+                print("写入内容：")
                 f.write(info[2])
                 for i in range(10):
                     f.write("\n")
