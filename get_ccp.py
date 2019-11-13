@@ -34,14 +34,14 @@ class History:
 
     def get_articles(self, json_data):
         articles = []
-        today = str(datetime.date.today())
+        date = input("请输入日期（格式xxxx-xx-xx）：")
         for data in json_data:
             respond = requests.get(data)
             respond.encoding = "utf-8"
             values = list(json.loads(respond.text, encoding="utf-8"))
             for value in values:
-                if today in value["publishTime"]:
-                    articles.append({"category": value["channelNames"][0], "url": value["url"], "date": today})
+                if date in value["publishTime"]:
+                    articles.append({"category": value["channelNames"][0], "url": value["url"], "date": date})
         return articles
 
     def get_content(self, articles):
@@ -85,14 +85,14 @@ class History:
         return article_list
     
     def create_file(self, list_info):
-        if not os.path.exists(r"data/学习强国"):
-            os.mkdir(r"data/学习强国")
+        if not os.path.exists(r"学习强国"):
+            os.mkdir(r"学习强国")
         for info in list_info:
             # create folder
-            folder_path = r"data/学习强国/" + info[3]
+            folder_path = r"学习强国/" + info[3]
             if not os.path.exists(folder_path):
                 os.mkdir(folder_path)
-            path = r"data/学习强国/" + info[3] + r"/" + info[0] + ".txt"
+            path = r"学习强国/" + info[3] + r"/" + info[0] + ".txt"
             with open(path, "a+", encoding="utf-8") as f:
                 f.write(info[1])
                 f.write("\n")
