@@ -50,7 +50,7 @@ class History:
         '''
         article_list = []
         for article_data in articles:
-            print("读取地址{0}的数据".format(article_data))
+            print("读取地址{0}的数据".format(article_data["url"]))
             article_category = article_data["category"]
             article_date = article_data["date"]
             url_temp = article_data["url"].rsplit("/")
@@ -94,10 +94,8 @@ class History:
                 os.mkdir(folder_path)
             path = r"data/学习强国/" + info[3] + r"/" + info[0] + ".txt"
             with open(path, "a+", encoding="utf-8") as f:
-                print("写入标题：")
                 f.write(info[1])
                 f.write("\n")
-                print("写入内容：")
                 f.write(info[2])
                 for i in range(10):
                     f.write("\n")
